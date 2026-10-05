@@ -1,71 +1,21 @@
 # Learning Portfolio Tracker
 
-A real, tested Python project that tracks a portfolio of digital and
-immersive learning projects — milestones, a risk log, status reports,
-and a combined portfolio dashboard that flags which projects need
-management attention — built specifically for Siemens AG's "Working
-Student Digital & Immersive Learning Portfolio Support (Power Academy)"
-posting, whose exact task list (supporting planning/scheduling/
-reporting, maintaining project plans/status reports/risk logs/portfolio
-dashboards, and flagging what needs attention) had no prior evidence
-anywhere in this portfolio.
+A tested Python project that tracks a portfolio of digital and immersive learning projects: milestones, a risk log, status reports, and a combined portfolio dashboard that flags which projects need management attention. It supports planning, scheduling, and reporting, maintains project plans, status reports, risk logs, and dashboards, and flags what needs attention.
 
-## What this is (read before citing anywhere)
+## What it does
 
-**All project, milestone, risk, and status-report data is invented.**
-`src/data_sources.py` contains 5 fictional digital/immersive learning
-projects (an AR onboarding module, a VR safety training simulation, an
-AI tutoring chatbot pilot, an immersive product training library, and a
-micro-learning content refresh), styled after the kind of portfolio a
-Digital & Immersive Learning team would run, but none of it reflects
-any real Siemens Power Academy project, name, date, or content.
+- **`src/data_sources.py`**: the projects, milestones, risk log, and status reports, including one deliberately overdue, uncompleted milestone and a mix of open, mitigated, and closed risks, so the analysis logic has real conditions to detect.
+- **`src/analysis.py`**: overdue-milestone detection, risk severity scoring (likelihood × impact) and open-risk filtering/sorting, latest-status-report lookup, a combined per-project portfolio dashboard row, and attention-flagging logic (overdue milestone, high-severity open risk, or an already at-risk/delayed status).
+- **`src/report.py`**: renders the portfolio dashboard, risk log, and status reports as a 3-sheet `.xlsx` workbook via openpyxl, with header styling and attention-flagged rows highlighted. The output is an actual Excel file a stakeholder can open directly, not a printed table.
+- **`run_pipeline.py`**: runs the full flow end to end and prints a console report (see sample output below, copied from an actual run).
 
-**This models portfolio-tracking mechanics, not live team coordination.**
-Real portfolio management involves negotiating with stakeholders,
-re-prioritizing under real uncertainty, and running actual meetings and
-workshops — none of which a solo, offline project can honestly
-demonstrate (the same limitation already disclosed in this portfolio's
-`pricenow-scrum-plan`). What this project does demonstrate for real:
-correctly computing overdue-milestone detection, risk severity scoring
-and open-risk filtering, and a combined portfolio-dashboard view that
-flags projects needing attention — the actual data-handling and
-reporting logic behind those artifacts, output as a real, multi-sheet
-Excel workbook a stakeholder could open directly.
+## Data
 
-## What it actually does
+The project, milestone, risk, and status-report data is synthetic. `src/data_sources.py` contains 5 fictional digital and immersive learning projects (an AR onboarding module, a VR safety training simulation, an AI tutoring chatbot pilot, an immersive product training library, and a micro-learning content refresh). The tracker covers the data handling and reporting logic of portfolio management (milestone and risk computation and the dashboard view); the pipeline is built so real project data can replace the fictional set.
 
-- **`src/data_sources.py`** — the synthetic projects, milestones, risk
-  log, and status reports, including one deliberately overdue,
-  uncompleted milestone and a mix of open/mitigated/closed risks, so
-  the analysis logic has real conditions to detect.
-- **`src/analysis.py`** — overdue-milestone detection, risk severity
-  scoring (likelihood × impact) and open-risk filtering/sorting, latest-
-  status-report lookup, a combined per-project portfolio dashboard row,
-  and attention-flagging logic (overdue milestone, high-severity open
-  risk, or an already at-risk/delayed status).
-- **`src/report.py`** — renders the portfolio dashboard, risk log, and
-  status reports as a real 3-sheet `.xlsx` workbook via openpyxl, with
-  header styling and attention-flagged rows highlighted — an actual
-  file, not a printed table, matching this posting's named PowerPoint/
-  Excel proficiency requirement.
-- **`run_pipeline.py`** — runs the full flow end to end and prints a
-  real console report (see sample output below, copied from an actual
-  run).
+The risk-severity scoring (likelihood × impact, 1-9) is a simple, transparent model chosen for clarity.
 
-## Verification
-
-25 automated tests (`tests/`), all passing on the first run — worth
-stating plainly rather than inventing a bug: the milestone/risk/status
-data model is simple enough, and was written test-first alongside the
-analysis functions, that no defect surfaced during development this
-time.
-
-```bash
-python3 -m pytest -v      # 25 tests, all passing
-python3 run_pipeline.py   # runs the full pipeline end to end, writes Learning_Portfolio_Dashboard.xlsx
-```
-
-## Sample output (from an actual run)
+## Results
 
 ```
 Loaded 5 projects, 11 milestones, 6 risk log entries, 5 status reports.
@@ -84,21 +34,40 @@ Projects flagged for management attention (2):
 Wrote Learning_Portfolio_Dashboard.xlsx (Portfolio Dashboard, Risk Log, Status Reports sheets).
 ```
 
-P04 is flagged for its overdue "Final QA sign-off" milestone despite
-having zero open risks (its one real risk was already mitigated) —
-showing the dashboard genuinely combines multiple signals rather than
-just echoing project status back.
+P04 is flagged for its overdue "Final QA sign-off" milestone despite having zero open risks (its one risk was already mitigated), which shows the dashboard combines multiple signals rather than just echoing project status back.
 
-## Honest limitations
+## Tests
 
-- All project, milestone, risk, and status-report data is synthetic —
-  no real Siemens Power Academy or Digital & Immersive Learning content
-  was accessed or used.
-- This demonstrates portfolio-tracking data logic and reporting, not
-  live stakeholder coordination, workshop facilitation, or real
-  cross-functional negotiation — those require actual team-based
-  experience this solo project cannot substitute for, and I say so
-  directly rather than implying otherwise.
-- The risk-severity scoring (likelihood × impact, 1-9) is a simple,
-  transparent model chosen for clarity, not a claim of formal
-  enterprise risk-management-framework experience.
+25 automated tests (`tests/`), all passing. The milestone/risk/status data model is simple and was written test-first alongside the analysis functions.
+
+## Project structure
+
+```
+src/
+  data_sources.py
+  analysis.py
+  report.py
+tests/
+  test_data_sources.py
+  test_analysis.py
+  test_report.py
+run_pipeline.py
+Learning_Portfolio_Dashboard.xlsx   generated workbook
+```
+
+## Running it
+
+```bash
+python3 -m pytest -v      # 25 tests, all passing
+python3 run_pipeline.py   # runs the full pipeline end to end, writes Learning_Portfolio_Dashboard.xlsx
+```
+
+## Notes
+
+The tracker focuses on portfolio data logic and reporting. Coordination work such as stakeholder negotiation and workshops happens outside the tool; the workbook is the artifact those conversations can use.
+
+## Possible extensions
+
+- Load projects and milestones from a real source (Excel, a project-management tool export).
+- Add a PowerPoint status-report export alongside the Excel workbook.
+- Trend the dashboard across several reporting dates.

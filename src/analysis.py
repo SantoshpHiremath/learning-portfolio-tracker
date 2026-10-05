@@ -1,8 +1,7 @@
 """
 Portfolio-level analysis: overdue milestones, open-risk summaries by
 severity, and a per-project rollup combining status, milestone
-progress, and open risk count -- the "portfolio dashboard" view the
-posting names directly.
+progress, and open risk count -- the "portfolio dashboard" view.
 """
 
 from __future__ import annotations

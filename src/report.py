@@ -1,8 +1,7 @@
 """
 Renders the portfolio dashboard and risk log as a real, multi-sheet
 .xlsx workbook via openpyxl -- an actual file a stakeholder could open,
-not a printed table, matching the posting's named PowerPoint/Excel
-proficiency requirement.
+not a printed table.
 """
 
 from __future__ import annotations

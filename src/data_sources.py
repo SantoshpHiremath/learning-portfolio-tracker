@@ -3,9 +3,8 @@ Synthetic data for a fictional digital/immersive learning portfolio --
 several concurrent pilot projects (an AR onboarding module, a VR safety
 training simulation, an AI-tutoring chatbot pilot, and so on), each with
 milestones, a risk log, and periodic status reports. Modeled on the
-kind of portfolio a Digital & Immersive Learning team would track, but
-entirely invented: no real Siemens Power Academy, project names, dates,
-or content are used.
+kind of portfolio a Digital & Immersive Learning team would track.
+All project names, dates, and content are invented.
 """
 
 from __future__ import annotations
@@ -56,9 +55,9 @@ class StatusReport:
 PROJECTS: list[Project] = [
     Project("P01", "AR Onboarding Module — Pilot", "Field Service Training", date(2026, 3, 1), date(2026, 9, 30), "on_track"),
     Project("P02", "VR Safety Training Simulation", "EHS Learning", date(2026, 2, 15), date(2026, 8, 15), "at_risk"),
-    Project("P03", "AI Tutoring Chatbot — Co-Creation Pilot", "Power Academy Digital", date(2026, 5, 1), date(2026, 11, 30), "on_track"),
+    Project("P03", "AI Tutoring Chatbot — Co-Creation Pilot", "Learning Academy Digital", date(2026, 5, 1), date(2026, 11, 30), "on_track"),
     Project("P04", "Immersive Product Training Library", "Product Learning Solutions", date(2026, 1, 10), date(2026, 6, 30), "delayed"),
-    Project("P05", "Micro-Learning Content Refresh", "Power Academy Digital", date(2026, 4, 1), date(2026, 7, 15), "completed"),
+    Project("P05", "Micro-Learning Content Refresh", "Learning Academy Digital", date(2026, 4, 1), date(2026, 7, 15), "completed"),
 ]
 
 MILESTONES: list[Milestone] = [
